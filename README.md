@@ -10,14 +10,21 @@
 ![111](https://github.com/KW-FINDVIBE/FINDVIBE/assets/84065412/67b0cddc-eff3-4647-b9cf-200d1352a7c4)
 풍경 사진을 딥러닝 모델로 분석하여 사진 촬영 예상 위치정보를 제공하는 것 입니다.
 
+## 개발기능
+저는 이 프로젝트에서 다음과 같은 부분을 개발했습니다.
+- nodeJs Express server : server 구현, Auth/User/Predict/File api의 개발
+- DB : MySQL(사용자 정보, 예측 요청 Log DB), MongoDB(사용자 로그인 시, session 저장)
+- python server : server 구현, predict api의 뼈대
+- aws : EC2 인스턴스를 통한 프로젝트 배포 
+
 ## 기대효과
 - 사진 촬영을 좋아하는 사람들에게 사진의 구도 정보 제공
 - 과거에 찍은 사진이 어디에서 찍은 사진인지 알고 싶으나 기억 나지 않을 경우에 위치 정보 제공
 - EXIF가 훼손되더라도 위치 좌표 제공 가능
 
 ## 한계점
-- Google Street View Dataset 특성 상 도로, 하늘, 빌딩 등 겹치는 부분이 많아서 특징점을 추출하는 것이 어렵다.
-- 사진이 찍힌 위치를 찾기 위해서 방대하고 구체적인 학습데이터가 필요하다.
+- Google Street View Dataset 특성 상 도로, 하늘, 빌딩 등 겹치는 부분이 많아서 특징점을 추출하는 것이 어려움.
+- 사진이 찍힌 위치를 찾기 위해서 방대하고 구체적인 학습데이터가 필요함.
 
 ## 프로젝트 자료
 
