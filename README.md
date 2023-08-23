@@ -14,6 +14,7 @@
 저는 이 프로젝트에서 다음과 같은 부분을 개발했습니다.
 - nodeJs Express server : server 구현, Auth/User/Predict/File api의 개발
 - DB : MySQL(사용자 정보, 예측 요청 Log DB), MongoDB(사용자 로그인 시, session 저장)
+- ORM : sequelize 모듈을 사용해서 직접 쿼리를 보내지 않고 ORM문법을 통해서 DB에 접근.
 - python server : server 구현, predict api의 뼈대
 - aws : EC2 인스턴스를 통한 프로젝트 배포 
 
@@ -67,7 +68,14 @@
   <img src="https://img.shields.io/badge/tensorflow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white">
 </div>
 
-
+## 프로젝트 후기
+이번 프로젝트는 처음부터 끝까지 혼자서 서버를 구현하고, 각종 api를 개발했다는 점에서
+백엔드 개발자로서 역량을 크게 늘릴 수 있었다.
+</br>
+회원 가입 기능을 개발할 때, 깜빡하고 비밀번호 암호화를 하지 않고 문자열 그대로 DB에 저장해서
+테러리스트라는 말을 들었다. 반성하고 암호화에 crypto 모듈을 사용한 경험이 가장 기억에 남는다.
+그 이외에는 multipart를 통해서 client에서 img file을 전송받는 기능 구현, python server에 img file 전송하고 예상 결과 반환받는 기능 구현 경험은
+추후에 다른 협업 프로젝트 진행 시에 도움이 될것 같다.
 
 
 
