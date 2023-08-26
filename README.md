@@ -1,7 +1,6 @@
-# FindVibe - 사진 촬영 위치 예측 웹 서비스
-
-## 프로젝트 소개 
-광운대학교 참빛설계학기에 참여했던 웹 프로젝트입니다.
+## FindVibe - 사진 촬영 위치 예측 웹 서비스
+ 
+[2023년 1학기] 광운대학교 참빛설계학기에 참여했던 창의융합형 웹 프로젝트입니다.
 </br>
 </br>
 진행 기간 : 2023.03 ~ 2023.06
@@ -10,12 +9,100 @@
 ![111](https://github.com/KW-FINDVIBE/FINDVIBE/assets/84065412/67b0cddc-eff3-4647-b9cf-200d1352a7c4)
 풍경 사진을 딥러닝 모델로 분석하여 사진 촬영 예상 위치정보를 제공하는 것 입니다.
 
-## 개발기능
-저는 이 프로젝트에서 다음과 같은 부분을 개발했습니다.
+## 나의 기여
+### ◽client
+
+<details>
+<summary><b>api 요청 함수</b></summary>
+<div markdown="1">
+  </br>
+  
+  > client에서 server로 api 요청을 보내는 함수를 정의하고 모듈처럼 사용할 수 있도록 조치함.
+
+  - [client API 코드](https://github.com/HungKungE/FINDVIBE/tree/main/client/src/API)
+
+  ### 사용 skills
+  <div>
+    <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  </div>
+  </br>
+</div>
+</details>
+
+
+### ◽server(nodeJs)
+
+<details>
+<summary><b>Hd note</b></summary>
+<div markdown="1">
+  </br>
+  
+  > main server인 nodeJs Express server를 구현했다.
+
+  ### 사용 skills
+  <div>
+    <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  </div>
+
+  ### 개발 내용 ( 클릭 시, 상세 설명 페이지로 이동 )
+  | 종류 | 개발 내용 |
+  | ----- | ----- |
+  | [route](https://github.com/HungKungE/FINDVIBE/blob/main/server/src/route) | api url에 따라서 해당 api로 라우팅하는 기능 |
+  | [connect](https://github.com/HungKungE/FINDVIBE/blob/main/server/src/connect) | MySQL DB에 sequelize라는 ORM을 통해 연결함. |
+  | [sessionAuth](https://github.com/HungKungE/FINDVIBE/tree/main/server/src/api) | 로그인 시 서버 session에 저장된 user data를 통해서 api 요청할 때마다 session 유효성 확인하고 갱신함.|
+  | [auth](https://github.com/HungKungE/FINDVIBE/blob/main/server/src/auth)| 로그인, 로그아웃, 유효성 확인 api.|
+  | [user](https://github.com/HungKungE/FINDVIBE/tree/main/server/src/user)| 회원 가입, 닉네임 중복 확인, 닉네임 수정, 비밀번호 수정 api.|
+  | [predict](https://github.com/HungKungE/FINDVIBE/blob/main/server/src/predict) | 예측 요청(python, google) api |
+  | [file](https://github.com/HungKungE/FINDVIBE/blob/main/server/src/file) | 로컬 저장소의 이미지 파일 제공 api |
+  
+  </br>
+  
+</div>
+</details>
+
 - nodeJs Express server : server 구현, Auth/User/Predict/File api의 개발
+- 
+### ◽server(python)
+
+<details>
+<summary><b>Hd note</b></summary>
+<div markdown="1">
+  </br>
+  
+  > client에서 server로 api 요청을 보내는 함수를 정의하고 모듈처럼 사용할 수 있도록 조치함.
+
+  - [client API 코드](https://github.com/HungKungE/FINDVIBE/tree/main/client/src/API)
+
+  ### 사용 skills
+  <div>
+    <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  </div>
+  </br>
+</div>
+</details>
+
+### ◽devOps
+
+<details>
+<summary><b>Hd note</b></summary>
+<div markdown="1">
+  </br>
+  
+  > client에서 server로 api 요청을 보내는 함수를 정의하고 모듈처럼 사용할 수 있도록 조치함.
+
+  - [client API 코드](https://github.com/HungKungE/FINDVIBE/tree/main/client/src/API)
+
+  ### 사용 skills
+  <div>
+    <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  </div>
+  </br>
+</div>
+</details>
+
 - DB : MySQL(사용자 정보, 예측 요청 Log DB), MongoDB(사용자 로그인 시, session 저장)
-- ORM : sequelize 모듈을 사용해서 직접 쿼리를 보내지 않고 ORM문법을 통해서 DB에 접근.
-- python server : server 구현, predict api의 뼈대
+- ORM : sequelize 모듈을 사용해서 직접 쿼리를 보내지 않고 DB에 접근.
+- python Flask server : server 구현, predict api의 뼈대 추가
 - aws : EC2 인스턴스를 통한 프로젝트 배포 
 
 ## 기대효과
