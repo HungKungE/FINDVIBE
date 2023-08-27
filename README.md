@@ -69,7 +69,7 @@
 </details>
 
 ### ◽server(nodeJs - JavaScript)
-- nodeJs Express server : server 구현, Auth/User/Predict/File api의 개발
+
 <details>
 <summary><b>routing 기능</b></summary>
 <div markdown="1">
@@ -82,14 +82,6 @@
   api 엔드 포인트를 등록함으로써 routing기능을 구현했다.
   </br>
   예를 들어, api url = "/auth/login"이면 login api로 라우팅된다.
-
-  ### 개발 내용 ( 클릭 시, 상세 설명 페이지로 이동 )
-  | 종류 | 개발 내용 |
-  | ----- | ----- |
-  | [user](https://github.com/HungKungE/FINDVIBE/tree/main/server/src/user)| 회원 가입, 닉네임 중복 확인, 닉네임 수정, 비밀번호 수정 api.|
-  | [predict](https://github.com/HungKungE/FINDVIBE/blob/main/server/src/predict) | 예측 요청(python, google) api |
-  | [file](https://github.com/HungKungE/FINDVIBE/blob/main/server/src/file) | 로컬 저장소의 이미지 파일 제공 api |
-  
   </br>
   
 </div>
@@ -183,12 +175,15 @@
   |[UpdatePassword](https://github.com/HungKungE/FINDVIBE/blob/main/server/src/user/api/update_password.js)|비밀번호를 수정한다.|
 
   #### Crypto 모듈 사용 이유
-  ```sh
+  
   암호화는 크게 단방향 암호화와 양방향 암호화로 나뉜다.
-  |종류|암호화|복호화| 방식 |
-  |단방향|O|X| 해싱 |
-  |양방향|O|O| 대칭키, 비대칭키|
-
+  
+  | 종류 |암호화|복호화| 방식 |
+  |-----|-----|-----|-----|
+  |단방향|  O  |  X  | 해싱 |
+  |양방향|  O  |  O  | 대칭키, 비대칭키|
+  
+  ```sh
   1. 단방향 암호화 : 해시
   nodeJs server에서 비밀번호 암호화에 사용하는 대표적인 모듈은 bcrypt와 crypto이다.
 
@@ -221,48 +216,80 @@
 </div>
 </details>
 
+<details>
+<summary><b>file api</b></summary>
+<div markdown="1">
+  </br>
+  > 파일 제공 api이다.
+
+   #### 개발 목록
+  | api | 기능 |
+  |-----|-----|
+  |[file-get](https://github.com/HungKungE/FINDVIBE/blob/main/server/src/file/file.js)|서버 로컬에 저장된 이미지를 제공하는 api이다.|
+
+  #### api 설명
+  ```sh
+  get요청으로 url을 "/file/img_name"로 전송하면 해당 img를 제공한다.
+  1. url의 img_name을 파싱한다.
+  2. 이미지가 저장되는 절대 경로와 img_name을 합쳐 파일 url을 만든다.
+  3. sendFile함수를 통해서 해당 파일을 제공한다.
+
+  사용처
+  - client에서 분석 기록 열람할 때, 사진 정보 제공
+  ```
+  </br>
+</div>
+</details>
+
+<details>
+<summary><b>predict api</b></summary>
+<div markdown="1">
+  </br>
+  > python deep learning, google cloud api 중 하나를 사용하여 사진 예상 위치 분석 요청의 결과값을 제공하는 api이다.
+ 
+   #### 개발 목록
+  | api | 기능 |
+  |-----|-----|
+  |[predict-python](https://github.com/HungKungE/FINDVIBE/blob/main/server/src/predict/predict.js)|python server로 분석 대상 사진을 전송하고, 그 결과 값을 전달한다.|
+  |[predict-google](https://github.com/HungKungE/FINDVIBE/blob/main/server/src/predict/predict.js)|google cloud api를 통해서 사진을 분석하고, 그 결과 값을 전달한다.|
+
+  #### api 설명
+  ```sh
+  predict api 절차는 다음과 같다.
+  1. 전달 받은 분석 대상 사진을 local storage에 저장.
+  2. 저장한 사진들의 이름을 list로 만듦 -> img_name_list
+  3. { img_name_list , 요청 시간, user_id }-> request_log 추가
+  4. 이미지 분석
+     4-1. img_name_list -> python deep learning server에 분석 요청
+     4-2. img_name_list -> google cloud api를 사용해서 이미지 분석
+  5. 분석 결과 response_log에 추가하고 사용자에게 결과 제공
+  ```
+  </br>
+</div>
+</details>
+
 ### ◽server(python)
 
 <details>
-<summary><b>Hd note</b></summary>
+<summary><b> Flask server 구현 </b></b></summary>
 <div markdown="1">
   </br>
   
-  > client에서 server로 api 요청을 보내는 함수를 정의하고 모듈처럼 사용할 수 있도록 조치함.
+  > python deep learning model의 기능을 제공하기 위한 서버를 구현했다.
 
-  - [client API 코드](https://github.com/HungKungE/FINDVIBE/tree/main/client/src/API)
+  - [server 코드](https://github.com/HungKungE/FINDVIBE/blob/main/predict/main.py)
 
-  ### 사용 skills
-  <div>
-    <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
-  </div>
+  #### Flask를 사용한 이유
+  ```sh
+  python의 대표적인 웹 프레임워크는 Flask와 Django가 있다.
+  Django가 더 많은 기능을 제공하여 높은 생산성을 보여주지만
+  이번 프로젝트에서는 deep learning 모델의 기능만 제공하면 되기 때문에
+  불필요한 기능을 포함하고 무거운 django보다는
+  좀 더 가벼운 마이크로 웹 프레임워크인 Flask를 사용했다.
+  ```
   </br>
 </div>
 </details>
-
-### ◽devOps
-
-<details>
-<summary><b>Hd note</b></summary>
-<div markdown="1">
-  </br>
-  
-  > client에서 server로 api 요청을 보내는 함수를 정의하고 모듈처럼 사용할 수 있도록 조치함.
-
-  - [client API 코드](https://github.com/HungKungE/FINDVIBE/tree/main/client/src/API)
-
-  ### 사용 skills
-  <div>
-    <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
-  </div>
-  </br>
-</div>
-</details>
-
-- DB : MySQL(사용자 정보, 예측 요청 Log DB), MongoDB(사용자 로그인 시, session 저장)
-- ORM : sequelize 모듈을 사용해서 직접 쿼리를 보내지 않고 DB에 접근.
-- python Flask server : server 구현, predict api의 뼈대 추가
-- aws : EC2 인스턴스를 통한 프로젝트 배포 
 
 ## 기대효과
 - 사진 촬영을 좋아하는 사람들에게 사진의 구도 정보 제공
@@ -315,13 +342,19 @@
 </div>
 
 ## 프로젝트 후기
-이번 프로젝트는 처음부터 끝까지 혼자서 서버를 구현하고, 각종 api를 개발했다는 점에서
-백엔드 개발자로서 역량을 크게 늘릴 수 있었다.
-</br>
-회원 가입 기능을 개발할 때, 깜빡하고 비밀번호 암호화를 하지 않고 문자열 그대로 DB에 저장해서
-테러리스트라는 말을 들었다. 반성하고 암호화에 crypto 모듈을 사용한 경험이 가장 기억에 남는다.
-그 이외에는 multipart를 통해서 client에서 img file을 전송받는 기능 구현, python server에 img file 전송하고 예상 결과 반환받는 기능 구현 경험은
-추후에 다른 협업 프로젝트 진행 시에 도움이 될것 같다.
+```sh
+이번 프로젝트는 처음부터 끝까지 혼자서 서버를 구현하고,
+각종 api를 개발했다는 점에서 백엔드 개발자로서 역량을 크게 늘릴 수 있었다.
 
+특히 OAuth를 사용하지 않고, 사이트 고유의 회원가입, 유효성 검증 기능을 개발하면서
+crypto모듈을 통한 비밀번호 암호화, session storage 사용 등을 통해서 사이트 보안에 대해 고려할 수 있어서 좋았다.
 
+또한, multipart를 통해서 client에서 img file을 전달할 때 특정 폴더에 파일을 저장하는 기능을 구현하거나
+python server에 분석 요청을 보내고 예상 결과를 반환받는 기능 구현 경험은 추후에 다른 협업 프로젝트 진행 시에 도움이 될것 같다.
+
+```
+## 문제 상황 & 해결방법
+|문제 상황|해결방법|
+|-----|-----|
+|딥러닝 모델의 높은 요구 스펙 때문에 python server 배포 하기엔 비용이 부담스러웠음.|성능좋은 로컬 컴퓨터에서 서버를 가동시키고 포트포워딩하여 연결 가능한 환경을 조성함.|
 
